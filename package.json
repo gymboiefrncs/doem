@@ -1,0 +1,29 @@
+{
+  "name": "doem",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo for the DOEM project",
+  "type": "module",
+  "packageManager": "pnpm@10.29.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter @doem/backend dev",
+    "build": "pnpm --filter @doem/backend build",
+    "start": "pnpm --filter @doem/backend start",
+    "typecheck": "pnpm -r exec tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,cjs,json,md}\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.72.1"
+  }
+}
