@@ -22,5 +22,3 @@ export const websiteRoutes: FastifyPluginAsync = async (fastify) => {
     controller
   );
 };
-
-// TODO: decide whether to lean towards using a class-based approach, closure based appproach or stick with current approach
