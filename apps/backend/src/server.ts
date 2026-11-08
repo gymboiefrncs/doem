@@ -1,14 +1,12 @@
 import { buildApp } from "./app.js";
-import { env } from "./config/env.js";
-
-const app = buildApp();
 
 const start = async () => {
   try {
-    await app.listen({ port: env.PORT });
-    console.log(`Serve is running at post ${env.PORT}`);
+    const fastify = await buildApp();
+    await fastify.listen({ port: fastify.config.PORT });
+    fastify.log.info(`Server is running on port ${fastify.config.PORT}`);
   } catch (error) {
-    app.log.error(error);
+    console.error(error);
     process.exit(1);
   }
 };

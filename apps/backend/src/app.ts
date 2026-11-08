@@ -1,12 +1,16 @@
 import Fastify from "fastify";
 import databasePlugin from "./plugins/database.js";
+import fastifyEnv from "@fastify/env";
+import { envOptions } from "./config/env.js";
 
-export const buildApp = () => {
-  const app = Fastify({
+export const buildApp = async () => {
+  const fastify = Fastify({
     logger: true
   });
 
-  app.register(databasePlugin);
+  await fastify.register(fastifyEnv, envOptions);
 
-  return app;
+  await fastify.register(databasePlugin);
+
+  return fastify;
 };
