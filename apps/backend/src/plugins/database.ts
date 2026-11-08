@@ -1,5 +1,10 @@
-import { Pool } from "pg";
+import postgres from "@fastify/postgres";
+import { FastifyPluginAsync } from "fastify";
 
-export const db = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
+const databasePlugin: FastifyPluginAsync = async (fastify) => {
+  await fastify.register(postgres, {
+    connectionString: process.env.DATABASE_URL
+  });
+};
+
+export default databasePlugin;

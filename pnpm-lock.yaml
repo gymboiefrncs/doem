@@ -35,6 +35,9 @@ importers:
       '@fastify/cors':
         specifier: ^11.4.1
         version: 11.4.1
+      '@fastify/postgres':
+        specifier: ^6.1.2
+        version: 6.1.2(pg@8.23.1)
       dotenv:
         specifier: ^18.0.9
         version: 18.0.9
@@ -293,6 +296,11 @@ packages:
 
   '@fastify/merge-json-schemas@0.2.2':
     resolution: {integrity: sha512-d/gx9sRbUCVgGRGzma46wLcwiY8noTqO2Nmjg/vbTARxHRE5bdh5PIL8s97Lt1X7ScRWRW52eVYxwIoPwIdVUA==}
+
+  '@fastify/postgres@6.1.2':
+    resolution: {integrity: sha512-LqS8n+h51WfU3KACs2C5kbhzPEGbf/qBFJB9HAdD0GWFIW/6VanCDkL63WHEWmDGbyF3Dt8ipGUG6uKtDgDtyg==}
+    peerDependencies:
+      pg: '>=6.0.0'
 
   '@fastify/proxy-addr@5.1.2':
     resolution: {integrity: sha512-uqB4QsgVoro0XDC+DIftIMGXHdBPn+lK6Ek3xXAIxPMCJfqxnbtyEoMCm2KPUVOuIosd7Cyw9HawEqMFM/UA+g==}
@@ -1253,6 +1261,11 @@ snapshots:
   '@fastify/merge-json-schemas@0.2.2':
     dependencies:
       dequal: 2.0.3
+
+  '@fastify/postgres@6.1.2(pg@8.23.1)':
+    dependencies:
+      fastify-plugin: 6.0.1
+      pg: 8.23.1
 
   '@fastify/proxy-addr@5.1.2':
     dependencies:
