@@ -1,4 +1,4 @@
-import { initalize } from "./client";
+import { initialize } from "./client";
 
 const script = document.currentScript;
 
@@ -8,4 +8,4 @@ if (!(script instanceof HTMLScriptElement)) {
 
 const websiteId = script.dataset.websiteId;
 
-initalize({ websiteId });
+window.doem = initialize({ websiteId });

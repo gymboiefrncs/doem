@@ -1,11 +1,18 @@
+import { createTracker } from "./tracker";
+
 export interface DoemConfig {
   websiteId: string | undefined;
 }
 
-export const initalize = (config: DoemConfig): void => {
-  if (!config.websiteId) {
+export const initialize = (config: DoemConfig) => {
+  const { websiteId } = config;
+  if (!websiteId) {
     throw new Error("[DOEM] websiteId is required");
   }
 
-  console.log("[DOEM] initialized:", config.websiteId);
+  const tracker = createTracker({ websiteId });
+
+  return {
+    track: tracker.track
+  };
 };
