@@ -18,3 +18,12 @@ export class DuplicateResourceError extends BaseError {
     super(detail);
   }
 }
+
+export class ResourceNotFoundError extends BaseError {
+  readonly status = 404;
+  readonly title = "Not Found";
+  readonly type = "about:blank";
+  constructor(detail: string) {
+    super(detail);
+  }
+}
