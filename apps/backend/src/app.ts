@@ -3,6 +3,7 @@ import postgres from "@fastify/postgres";
 import fastifyEnv from "@fastify/env";
 import { envOptions } from "./config/env.js";
 import { websiteRoutes } from "./modules/website/website.routes.js";
+import { eventRoutes } from "./modules/event/event.routes.js";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { BaseError, DuplicateResourceError } from "./errors/domain.errors.js";
 
@@ -74,6 +75,7 @@ export const buildApp = async () => {
   fastify.setSerializerCompiler(serializerCompiler);
 
   await fastify.register(websiteRoutes, { prefix: "/api/v1" });
+  await fastify.register(eventRoutes, { prefix: "/api/v1" });
 
   return fastify;
 };
