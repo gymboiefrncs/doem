@@ -1,14 +1,17 @@
 import type { TrackEventInput } from "@doem/shared";
 import type { PoolClient } from "pg";
 
-export const eventRepository = (client: PoolClient) => {
+export const eventRepository = () => {
   return {
-    async findWebsite(websiteId: string): Promise<boolean> {
+    async findWebsite(client: PoolClient, websiteId: string): Promise<boolean> {
       const website = await client.query(`SELECT id FROM websites WHERE id = $1`, [websiteId]);
 
       return (website.rowCount ?? 0) > 0;
     },
-    async upsertVisitor(data: Pick<TrackEventInput, "websiteId" | "visitorId">): Promise<void> {
+    async upsertVisitor(
+      client: PoolClient,
+      data: Pick<TrackEventInput, "websiteId" | "visitorId">
+    ): Promise<void> {
       await client.query(
         `
           INSERT INTO visitors (
@@ -24,6 +27,7 @@ export const eventRepository = (client: PoolClient) => {
       );
     },
     async upsertSession(
+      client: PoolClient,
       data: Pick<TrackEventInput, "websiteId" | "sessionId" | "visitorId">
     ): Promise<boolean> {
       const session = await client.query(
@@ -45,7 +49,7 @@ export const eventRepository = (client: PoolClient) => {
 
       return (session.rowCount ?? 0) > 0;
     },
-    async insertEvent(data: TrackEventInput): Promise<boolean> {
+    async insertEvent(client: PoolClient, data: TrackEventInput): Promise<boolean> {
       const event = await client.query(
         `
           INSERT INTO events (

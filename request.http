@@ -1,0 +1,98 @@
+
+@baseUrl = http://localhost:3000/api/v1
+@websiteId = 01a1da0a-2b9f-7769-af93-d8a3efcf76ac
+
+@visitorA = 550e8400-e29b-41d4-a716-446655440001
+@visitorB = 550e8400-e29b-41d4-a716-446655440002
+
+@sessionA = 550e8400-e29b-41d4-a716-446655440003
+
+@eventA = 550e8400-e29b-41d4-a716-446655440004
+@eventB = 550e8400-e29b-41d4-a716-446655440005
+
+### 1. Create website for testing
+POST {{baseUrl}}/websites
+Content-Type: application/json
+
+{
+  "name": "Test Website",
+  "domain": "example.com",
+  "timezone": "UTC"
+}
+
+### 2. Create visitor A and session A
+
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "websiteId": "{{websiteId}}",
+  "visitorId": "{{visitorA}}",
+  "sessionId": "{{sessionA}}",
+  "eventId": "{{eventA}}",
+  "eventName": "page_view",
+  "properties": {
+    "source": "direct"
+  },
+  "url": "https://example.com/",
+  "title": "Homepage",
+  "timestamp": 1794672000000
+}
+
+### 2. IDEMPOTENCY: Submit the exact same event again
+# Expected: 202 Accepted
+# duplicate should be true.
+
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "websiteId": "{{websiteId}}",
+  "visitorId": "{{visitorA}}",
+  "sessionId": "{{sessionA}}",
+  "eventId": "{{eventA}}",
+  "eventName": "page_view",
+  "properties": {
+    "source": "direct"
+  },
+  "url": "https://example.com/",
+  "title": "Homepage",
+  "timestamp": 1794672000000
+}
+
+### 3. INVALID WEBSITE: Submit an event for a nonexistent website
+# Expected: 404 Not Found
+
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "websiteId": "00000000-0000-4000-8000-000000000000",
+  "visitorId": "550e8400-e29b-41d4-a716-446655440006",
+  "sessionId": "550e8400-e29b-41d4-a716-446655440007",
+  "eventId": "550e8400-e29b-41d4-a716-446655440008",
+  "eventName": "page_view",
+  "properties": {},
+  "url": "https://example.com/",
+  "title": "Homepage",
+  "timestamp": 1794672000000
+}
+
+### 4. SESSION OWNERSHIP: Visitor B attempts to use visitor A's session
+# Expected: 409 Conflict
+# Important: visitor B is new, so this also tests transaction rollback.
+
+POST {{baseUrl}}/events
+Content-Type: application/json
+
+{
+  "websiteId": "{{websiteId}}",
+  "visitorId": "{{visitorB}}",
+  "sessionId": "{{sessionA}}",
+  "eventId": "{{eventB}}",
+  "eventName": "page_view",
+  "properties": {},
+  "url": "https://example.com/",
+  "title": "Homepage",
+  "timestamp": 1794672000000
+}

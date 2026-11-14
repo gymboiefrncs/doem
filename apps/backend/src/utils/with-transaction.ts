@@ -19,3 +19,7 @@ export const withTransaction = async <T>(
     client.release();
   }
 };
+
+export interface TransactionManager {
+  run<T>(callback: (txContent: PoolClient) => Promise<T>): Promise<T>;
+}
