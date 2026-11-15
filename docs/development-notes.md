@@ -24,13 +24,71 @@
 - [x] Website ID generation implemented through database default (`uuidv7()`).
 - [x] Dashboard access token generation implemented.
 - [x] Recovery key generation implemented.
-- [x] Credential hashing before persistence implemented.
+- [x] Credential hashing before persistence implemented using HMAC-SHA-256.
 - [x] Original generated credentials returned in registration response.
 
-### SDK (Current Implementation)
+### Database Schema
+
+- [x] `visitors` table created via migration.
+- [x] `sessions` table created via migration.
+- [x] `events` table created via migration.
+- [x] Visitor uniqueness constraint added per website.
+- [x] Session uniqueness constraint added per website.
+- [x] Event uniqueness constraint added per website.
+- [x] Foreign key relationships between website, visitor, session, and event records configured.
+
+### SDK
 
 - [x] Browser bundle build configured with esbuild.
 - [x] SDK initialization via script tag dataset (`data-website-id`) implemented.
-- [x] Visitor ID persistence in localStorage implemented.
-- [x] Session creation and expiration handling implemented.
+- [x] Visitor ID generation and persistence in localStorage implemented.
+- [x] Session ID generation and persistence implemented.
+- [x] Session expiration handling implemented (30-minute inactivity threshold).
+- [x] Event ID generation implemented.
 - [x] Event payload creation through `track(...)` implemented.
+- [x] Event submission to the backend implemented.
+
+### Event Ingestion
+
+- [x] Event ingestion endpoint implemented.
+- [x] Event payload validation implemented.
+- [x] Visitor record creation and update implemented.
+- [x] Session record creation and update implemented.
+- [x] Event persistence implemented.
+- [x] Database transaction handling implemented for event ingestion.
+- [x] Duplicate event prevention implemented using a unique constraint and `ON CONFLICT`.
+- [x] Event ID used as an idempotency key.
+
+## Upcoming / To Do
+
+### Testing
+
+- [ ] Configure testing environment and test tooling.
+- [ ] Add unit tests for backend services.
+- [ ] Add tests for repository/database operations.
+- [ ] Add API integration tests for website registration.
+- [ ] Add API integration tests for event ingestion.
+- [ ] Test transaction rollback behavior.
+- [ ] Test duplicate event submissions and idempotency.
+- [ ] Test concurrent event ingestion.
+- [ ] Add SDK tests for visitor and session management.
+- [ ] Test SDK event payload generation and submission.
+
+### Backend
+
+- [ ] Implement analytics retrieval endpoints.
+- [ ] Implement dashboard authentication and credential recovery flows.
+- [ ] Add appropriate rate limiting and request safeguards.
+
+### SDK
+
+- [ ] Review session management behavior across multiple browser tabs.
+- [ ] Improve event delivery reliability and retry handling.
+- [ ] Add SDK documentation and usage examples.
+
+### Documentation
+
+- [ ] Document API endpoints and request/response schemas.
+- [ ] Document SDK installation and usage.
+- [ ] Document database schema and relationships.
+- [ ] Document event ingestion flow.
