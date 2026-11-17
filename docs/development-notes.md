@@ -63,13 +63,12 @@
 
 ### Testing
 
-- [ ] Configure testing environment and test tooling.
-- [ ] Add unit tests for backend services.
-- [ ] Add tests for repository/database operations.
-- [ ] Add API integration tests for website registration.
-- [ ] Add API integration tests for event ingestion.
-- [ ] Test transaction rollback behavior.
-- [ ] Test duplicate event submissions and idempotency.
+- [x] Configure testing environment and test tooling.
+- [x] Add unit tests for backend services.
+- [x] Add API integration tests for website registration.
+- [x] Add API integration tests for event ingestion.
+- [x] Test transaction rollback behavior.
+- [x] Test duplicate event submissions and idempotency.
 - [ ] Test concurrent event ingestion.
 - [ ] Add SDK tests for visitor and session management.
 - [ ] Test SDK event payload generation and submission.

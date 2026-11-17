@@ -66,7 +66,7 @@ export const eventRepository = () => {
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           ON CONFLICT (website_id, event_id)
           DO NOTHING
-          RETURNING id
+          RETURNING event_id
         `,
         [
           data.websiteId,
