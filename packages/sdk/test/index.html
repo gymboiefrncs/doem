@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOEM SDK Test</title>
+
+    <script src="../dist/tracker.js" data-website-id="test-website-123" defer></script>
+  </head>
+  <body>
+    <h1>DOEM SDK Test</h1>
+  </body>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!window.doem) {
+        console.error("[DOEM TEST] SDK did not initialize window.doem");
+        return;
+      }
+
+      console.log(
+        window.doem.track("signup_clicked", {
+          button: "signup"
+        })
+      );
+      console.log(
+        window.doem.track("login_clicked", {
+          button: "login"
+        })
+      );
+    });
+  </script>
+</html>
