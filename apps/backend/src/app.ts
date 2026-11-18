@@ -5,11 +5,18 @@ import { envOptions } from "./config/env.js";
 import { websiteRoutes } from "./modules/website/website.routes.js";
 import { eventRoutes } from "./modules/event/event.routes.js";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { BaseError, DuplicateResourceError } from "./errors/domain.errors.js";
+import { BaseError } from "./errors/domain.errors.js";
+import cors from "@fastify/cors";
 
 export const buildApp = async () => {
   const fastify = Fastify({
     logger: true
+  });
+
+  await fastify.register(cors, {
+    origin: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
   });
 
   await fastify.register(fastifyEnv, envOptions);

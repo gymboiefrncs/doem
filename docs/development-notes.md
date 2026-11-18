@@ -84,6 +84,8 @@
 - [ ] Review session management behavior across multiple browser tabs.
 - [ ] Improve event delivery reliability and retry handling.
 - [ ] Add SDK documentation and usage examples.
+- [ ] Request batching
+- [ ] Retries
 
 ### Documentation
 

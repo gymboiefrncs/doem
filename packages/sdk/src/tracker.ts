@@ -1,4 +1,5 @@
 import { getOrCreateSession } from "./session";
+import { createTransport } from "./transport";
 import { getVisitorId } from "./visitor";
 
 export interface TrackEvent {
@@ -16,10 +17,12 @@ export interface TrackEvent {
 
 interface TrackerConfig {
   websiteId: string;
+  apiUrl: string;
 }
 
 export const createTracker = (config: TrackerConfig) => {
   const visitorId = getVisitorId(config.websiteId);
+  const transport = createTransport({ apiUrl: config.apiUrl });
 
   const createEvent = (eventName: string, properties?: Record<string, unknown>): TrackEvent => {
     const session = getOrCreateSession(config.websiteId);
@@ -40,7 +43,15 @@ export const createTracker = (config: TrackerConfig) => {
 
   return {
     track(eventName: string, properties?: Record<string, unknown>): TrackEvent {
-      return createEvent(eventName, properties);
+      const event = createEvent(eventName, properties);
+
+      try {
+        transport.send(event);
+      } catch (error) {
+        console.error("[DOEM] Failed to send event:", error);
+      }
+
+      return event;
     }
   };
 };

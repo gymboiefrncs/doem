@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <title>DOEM SDK Test</title>
 
-    <script src="../dist/tracker.js" data-website-id="test-website-123" defer></script>
+    <script
+      src="../dist/tracker.js"
+      data-website-id="01a1e712-f1f0-7116-979e-177e41364d41"
+      defer
+    ></script>
   </head>
   <body>
     <h1>DOEM SDK Test</h1>
@@ -16,16 +20,12 @@
         return;
       }
 
-      console.log(
-        window.doem.track("signup_clicked", {
-          button: "signup"
-        })
-      );
-      console.log(
-        window.doem.track("login_clicked", {
-          button: "login"
-        })
-      );
+      window.doem.track("signup_clicked", {
+        button: "signup"
+      });
+      window.doem.track("login_clicked", {
+        button: "login"
+      });
     });
   </script>
 </html>
