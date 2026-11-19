@@ -44,13 +44,9 @@ export const createTracker = (config: TrackerConfig) => {
   return {
     track(eventName: string, properties?: Record<string, unknown>): TrackEvent {
       const event = createEvent(eventName, properties);
-
-      try {
-        transport.send(event);
-      } catch (error) {
+      transport.send(event).catch((error) => {
         console.error("[DOEM] Failed to send event:", error);
-      }
-
+      });
       return event;
     }
   };
