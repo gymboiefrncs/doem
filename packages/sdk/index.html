@@ -5,7 +5,7 @@
     <title>DOEM SDK Test</title>
 
     <script
-      src="../dist/tracker.js"
+      src="./dist/tracker.js"
       data-website-id="01a1e712-f1f0-7116-979e-177e41364d41"
       defer
     ></script>
@@ -19,7 +19,9 @@
         console.error("[DOEM TEST] SDK did not initialize window.doem");
         return;
       }
-
+      window.doem.trackPageView({
+        page: window.location.pathname
+      });
       window.doem.track("signup_clicked", {
         button: "signup"
       });

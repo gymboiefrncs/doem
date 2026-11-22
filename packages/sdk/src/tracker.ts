@@ -48,6 +48,13 @@ export const createTracker = (config: TrackerConfig) => {
         console.error("[DOEM] Failed to send event:", error);
       });
       return event;
+    },
+    trackPageView(properties?: Record<string, unknown>): TrackEvent {
+      const event = createEvent("page_view", properties);
+      transport.send(event).catch((error) => {
+        console.error("[DOEM] Failed to send page view event:", error);
+      });
+      return event;
     }
   };
 };

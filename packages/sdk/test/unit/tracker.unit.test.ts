@@ -41,9 +41,10 @@ describe("createTracker", () => {
   });
 
   describe("track", () => {
-    it("exposes a track function", () => {
+    it("exposes a track and trackPageView function", () => {
       const tracker = createTracker(config);
       expect(tracker).toHaveProperty("track");
+      expect(tracker).toHaveProperty("trackPageView");
     });
 
     it("builds a complete event from the current page state", () => {

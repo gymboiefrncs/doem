@@ -40,7 +40,7 @@ Responsibilities:
 - Initialize using the Website ID.
 - Generate or retrieve an anonymous Visitor ID.
 - Manage visitor sessions.
-- Track custom events.
+- Track automatic and custom events.
 - Build and send event payloads to the backend.
 
 The SDK is written in TypeScript and bundled into browser-compatible JavaScript using esbuild.

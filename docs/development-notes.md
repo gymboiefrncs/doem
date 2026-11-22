@@ -47,6 +47,7 @@
 - [x] Event ID generation implemented.
 - [x] Event payload creation through `track(...)` implemented.
 - [x] Event submission to the backend implemented.
+- [x] Automatic page view event
 
 ### Event Ingestion
 

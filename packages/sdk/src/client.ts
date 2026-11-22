@@ -15,6 +15,7 @@ export const initialize = (config: DoemConfig) => {
   const tracker = createTracker({ websiteId, apiUrl: DEFAULT_URL });
 
   return {
-    track: tracker.track
+    track: tracker.track,
+    trackPageView: tracker.trackPageView
   };
 };
