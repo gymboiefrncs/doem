@@ -1,5 +1,10 @@
 import type { FastifyPluginAsync } from "fastify";
-import { trackEventSchema, trackEventResponseSchema } from "@doem/shared";
+import {
+  trackEventSchema,
+  trackEventResponseSchema,
+  trackEventBatchSchema,
+  trackEventBatchResponseSchema
+} from "@doem/shared";
 import { eventService } from "./event.service.js";
 import { eventController } from "./event.controller.js";
 import { eventRepository } from "./event.repository.js";
@@ -20,12 +25,12 @@ export const eventRoutes: FastifyPluginAsync = async (fastify) => {
     "/events",
     {
       schema: {
-        body: trackEventSchema,
+        body: trackEventBatchSchema,
         response: {
-          202: trackEventResponseSchema
+          202: trackEventBatchResponseSchema
         }
       }
     },
-    controller
+    controller.trackBatch
   );
 };
