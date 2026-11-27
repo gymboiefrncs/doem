@@ -8,4 +8,11 @@ if (!(script instanceof HTMLScriptElement)) {
 
 const websiteId = script.dataset.websiteId;
 
-window.doem = initialize({ websiteId });
+window.doemReady = initialize({ websiteId }).then((tracker) => {
+  window.doem = tracker;
+  return tracker;
+});
+
+window.doemReady.catch((error: unknown) => {
+  console.error("[DOEM] Failed to initialize SDK:", error);
+});

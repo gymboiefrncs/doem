@@ -47,7 +47,7 @@
 - [x] Event ID generation implemented.
 - [x] Event payload creation through `track(...)` implemented.
 - [x] Event submission to the backend implemented.
-- [x] Automatic page view event
+- [x] Automatic page view event implemented.
 
 ### Event Ingestion
 
@@ -59,6 +59,19 @@
 - [x] Database transaction handling implemented for event ingestion.
 - [x] Duplicate event prevention implemented using a unique constraint and `ON CONFLICT`.
 - [x] Event ID used as an idempotency key.
+
+### SDK Persistent Storage (IndexedDB)
+
+- [x] IndexedDB database initialization implemented.
+- [x] `events` object store created with compound key `[websiteId, eventId]`.
+- [x] `batches` object store created with `batchId` as the key.
+- [x] Storage factory implemented to encapsulate IndexedDB operations.
+- [x] Event persistence implemented through `addEvent()`.
+- [x] Batch creation implemented through `createBatch()`.
+- [x] Pending event retrieval implemented through `getPendingEvents()`.
+- [x] Pending batch retrieval implemented through `getPendingBatches()`.
+- [x] Batch event retrieval implemented through `getBatchEvents()`.
+- [x] Batch status updates implemented through `updateBatchStatus()`.
 
 ## Upcoming / To Do
 
@@ -73,20 +86,42 @@
 - [ ] Test concurrent event ingestion.
 - [ ] Add SDK tests for visitor and session management.
 - [ ] Test SDK event payload generation and submission.
+- [ ] Add IndexedDB storage tests.
+- [ ] Add batcher unit tests.
 
 ### Backend
 
 - [ ] Implement analytics retrieval endpoints.
 - [ ] Implement dashboard authentication and credential recovery flows.
 - [ ] Add appropriate rate limiting and request safeguards.
+- [ ] Adapt event ingestion to support batch requests.
 
 ### SDK
 
+#### Request Batching
+
+- [ ] Implement batcher factory and storage integration.
+- [ ] Persist incoming events before attempting delivery.
+- [ ] Implement batch creation and retrieval.
+- [ ] Implement hybrid flushing strategy:
+  - Flush when the batch reaches 10 events.
+  - Flush every 5 seconds if the threshold has not been reached.
+- [ ] Implement transport support for sending event batches.
+- [ ] Implement batch status transitions.
+- [ ] Delete successfully delivered batches and their events.
+- [ ] Prevent overlapping flush operations.
+- [ ] Integrate batcher with SDK initialization and `track(...)`.
+
+#### Reliability and Delivery
+
+- [ ] Implement basic recovery for batches left in the `sending` state after an interrupted session.
+- [ ] Implement retry handling for failed deliveries.
 - [ ] Review session management behavior across multiple browser tabs.
 - [ ] Improve event delivery reliability and retry handling.
+
+#### Documentation
+
 - [ ] Add SDK documentation and usage examples.
-- [ ] Request batching
-- [ ] Retries
 
 ### Documentation
 
@@ -94,3 +129,4 @@
 - [ ] Document SDK installation and usage.
 - [ ] Document database schema and relationships.
 - [ ] Document event ingestion flow.
+- [ ] Document event batching and delivery behavior.

@@ -6,28 +6,47 @@
 
     <script
       src="./dist/tracker.js"
-      data-website-id="01a1e712-f1f0-7116-979e-177e41364d41"
+      data-website-id="01a20886-b095-7e0b-8aea-001644c7e034"
       defer
     ></script>
   </head>
   <body>
     <h1>DOEM SDK Test</h1>
+    <button id="send-10">Send 10 events</button>
+    <button id="send-3">Send 3 events</button>
   </body>
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!window.doem) {
-        console.error("[DOEM TEST] SDK did not initialize window.doem");
+    window.addEventListener("DOMContentLoaded", async () => {
+      if (!window.doemReady) {
+        console.error("[DOEM TEST] SDK script failed to load.");
         return;
       }
-      window.doem.trackPageView({
-        page: window.location.pathname
-      });
-      window.doem.track("signup_clicked", {
-        button: "signup"
-      });
-      window.doem.track("login_clicked", {
-        button: "login"
-      });
+
+      try {
+        // Pauses here until initialize() finishes
+        const tracker = await window.doemReady;
+        console.log("[DOEM TEST] SDK Ready!", tracker);
+
+        // Track page load
+        tracker.track("page_load");
+
+        document.querySelector("#send-10").addEventListener("click", () => {
+          for (let i = 0; i < 10; i++) {
+            window.doem.track("test_event", { index: i });
+          }
+          console.log("[DOEM TEST] Sent 10 events to SDK");
+        });
+
+        document.querySelector("#send-3").addEventListener("click", () => {
+          for (let i = 0; i < 3; i++) {
+            window.doem.track("test_event", { index: i });
+          }
+          console.log("[DOEM TEST] Sent 3 events to SDK");
+        });
+      } catch (err) {
+        // Runs only if initialize() rejected
+        console.error("[DOEM TEST] Initialization rejected:", err);
+      }
     });
   </script>
 </html>

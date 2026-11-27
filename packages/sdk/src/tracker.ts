@@ -1,4 +1,7 @@
+import { createBatcher } from "./batcher";
+import { openDatabase } from "./idb";
 import { getOrCreateSession } from "./session";
+import { createStorage } from "./storage";
 import { createTransport } from "./transport";
 import { getVisitorId } from "./visitor";
 
@@ -20,9 +23,12 @@ interface TrackerConfig {
   apiUrl: string;
 }
 
-export const createTracker = (config: TrackerConfig) => {
+export const createTracker = async (config: TrackerConfig) => {
+  const db = await openDatabase();
   const visitorId = getVisitorId(config.websiteId);
   const transport = createTransport({ apiUrl: config.apiUrl });
+  const storage = createStorage(db);
+  const batcher = createBatcher(storage, transport);
 
   const createEvent = (eventName: string, properties?: Record<string, unknown>): TrackEvent => {
     const session = getOrCreateSession(config.websiteId);
@@ -41,20 +47,20 @@ export const createTracker = (config: TrackerConfig) => {
     };
   };
 
+  const track = (eventName: string, properties?: Record<string, unknown>): TrackEvent => {
+    const event = createEvent(eventName, properties);
+    batcher.addEvent(event).catch((error) => {
+      console.error("[DOEM] Failed to add event to batcher:", error);
+    });
+    return event;
+  };
+
+  const trackPageView = (properties?: Record<string, unknown>): TrackEvent => {
+    return track("page_view", properties);
+  };
+
   return {
-    track(eventName: string, properties?: Record<string, unknown>): TrackEvent {
-      const event = createEvent(eventName, properties);
-      transport.send(event).catch((error) => {
-        console.error("[DOEM] Failed to send event:", error);
-      });
-      return event;
-    },
-    trackPageView(properties?: Record<string, unknown>): TrackEvent {
-      const event = createEvent("page_view", properties);
-      transport.send(event).catch((error) => {
-        console.error("[DOEM] Failed to send page view event:", error);
-      });
-      return event;
-    }
+    track,
+    trackPageView
   };
 };
